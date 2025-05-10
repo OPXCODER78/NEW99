@@ -21,6 +21,7 @@ const ForgotPassword = lazy(() => import('./pages/auth/ForgotPassword'));
 const Dashboard = lazy(() => import('./pages/admin/Dashboard'));
 const PostList = lazy(() => import('./pages/admin/posts/PostList'));
 const PostEditor = lazy(() => import('./pages/admin/posts/PostEditor'));
+const AdminBroadcast = lazy(() => import('./pages/admin/posts/AdminBroadcast'));
 const CategoryList = lazy(() => import('./pages/admin/categories/CategoryList'));
 const CommentModeration = lazy(() => import('./pages/admin/comments/CommentModeration'));
 const Profile = lazy(() => import('./pages/user/Profile'));
@@ -67,6 +68,7 @@ function App() {
               <Route path="posts" element={<PostList />} />
               <Route path="posts/new" element={<PostEditor />} />
               <Route path="posts/edit/:id" element={<PostEditor />} />
+              <Route path="broadcast" element={<AdminBroadcast />} />
               <Route path="categories" element={<CategoryList />} />
               <Route path="comments" element={<CommentModeration />} />
             </Route>

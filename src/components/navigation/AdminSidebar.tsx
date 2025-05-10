@@ -1,5 +1,5 @@
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import { Newspaper, LayoutDashboard, FileText, Folder as FolderTag, MessageSquare, Users, Settings, LogOut, X } from 'lucide-react';
+import { Newspaper, LayoutDashboard, FileText, Folder as FolderTag, MessageSquare, Users, Settings, LogOut, X, Broadcast } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
 interface AdminSidebarProps {
@@ -14,6 +14,7 @@ const AdminSidebar = ({ open, setOpen }: AdminSidebarProps) => {
   const navLinks = [
     { name: 'Dashboard', to: '/admin', icon: LayoutDashboard },
     { name: 'Posts', to: '/admin/posts', icon: FileText },
+    { name: 'Broadcast', to: '/admin/broadcast', icon: Broadcast },
     { name: 'Categories', to: '/admin/categories', icon: FolderTag },
     { name: 'Comments', to: '/admin/comments', icon: MessageSquare },
   ];
