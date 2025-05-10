@@ -1,3 +1,141 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* iOS System Font */
+@font-face {
+  font-family: 'SF Pro Text';
+  src: url('https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sfprotext-regular-webfont.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SF Pro Text';
+  src: url('https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sfprotext-medium-webfont.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SF Pro Text';
+  src: url('https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sfprotext-semibold-webfont.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sfprodisplay-regular-webfont.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@layer base {
+  :root {
+    --system-blue: rgb(0, 122, 255);
+    --system-green: rgb(52, 199, 89);
+    --system-indigo: rgb(88, 86, 214);
+    --system-orange: rgb(255, 149, 0);
+    --system-pink: rgb(255, 45, 85);
+    --system-purple: rgb(175, 82, 222);
+    --system-red: rgb(255, 59, 48);
+    --system-teal: rgb(90, 200, 250);
+    --system-yellow: rgb(255, 204, 0);
+    --system-gray: rgb(142, 142, 147);
+  }
+
+  .dark {
+    --system-blue: rgb(10, 132, 255);
+    --system-green: rgb(48, 209, 88);
+    --system-indigo: rgb(94, 92, 230);
+    --system-orange: rgb(255, 159, 10);
+    --system-pink: rgb(255, 55, 95);
+    --system-purple: rgb(191, 90, 242);
+    --system-red: rgb(255, 69, 58);
+    --system-teal: rgb(100, 210, 255);
+    --system-yellow: rgb(255, 214, 10);
+    --system-gray: rgb(152, 152, 157);
+  }
+
+  html {
+    font-family: 'SF Pro Text', system-ui, -apple-system, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  }
+}
+
+@layer components {
+  .ios-button {
+    @apply rounded-full px-4 py-2 font-medium transition-colors duration-200 
+           active:opacity-70 disabled:opacity-50;
+  }
+
+  .ios-button-filled {
+    @apply ios-button bg-[var(--system-blue)] text-white;
+  }
+
+  .ios-button-tinted {
+    @apply ios-button bg-[var(--system-blue)]/10 text-[var(--system-blue)];
+  }
+
+  .ios-button-gray {
+    @apply ios-button bg-gray-200 text-gray-800 dark:bg-gray-800 dark:text-gray-200;
+  }
+
+  .ios-card {
+    @apply rounded-xl bg-white dark:bg-gray-800 shadow-sm 
+           border border-gray-200 dark:border-gray-700;
+  }
+
+  .ios-list {
+    @apply rounded-xl bg-white dark:bg-gray-800 shadow-sm 
+           divide-y divide-gray-200 dark:divide-gray-700;
+  }
+
+  .ios-list-item {
+    @apply flex items-center px-4 py-3 space-x-3 
+           active:bg-gray-100 dark:active:bg-gray-700;
+  }
+
+  .ios-input {
+    @apply rounded-lg bg-gray-100 dark:bg-gray-800 px-4 py-3 
+           text-gray-900 dark:text-white placeholder-gray-500
+           border-0 focus:ring-2 focus:ring-[var(--system-blue)];
+  }
+
+  .ios-tab-bar {
+    @apply fixed bottom-0 left-0 right-0 bg-white/80 dark:bg-gray-900/80
+           backdrop-blur-lg border-t border-gray-200 dark:border-gray-800
+           flex items-center justify-around py-2 px-4 z-50;
+  }
+
+  .ios-safe-area {
+    @apply pb-[calc(env(safe-area-inset-bottom)+4rem)] 
+           pt-[calc(env(safe-area-inset-top)+1rem)]
+           px-[env(safe-area-inset-right,1rem)]
+           pl-[env(safe-area-inset-left,1rem)];
+  }
+}
+
+/* iOS-style animations */
+@keyframes ios-slide-up {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes ios-slide-down {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(0); }
+}
+
+.ios-slide-up {
+  animation: ios-slide-up 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ios-slide-down {
+  animation: ios-slide-down 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
