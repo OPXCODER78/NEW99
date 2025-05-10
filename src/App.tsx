@@ -25,6 +25,7 @@ const AdminBroadcast = lazy(() => import('./pages/admin/posts/AdminBroadcast'));
 const CategoryList = lazy(() => import('./pages/admin/categories/CategoryList'));
 const CommentModeration = lazy(() => import('./pages/admin/comments/CommentModeration'));
 const Profile = lazy(() => import('./pages/user/Profile'));
+const CreatePost = lazy(() => import('./pages/user/CreatePost'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
 function App() {
@@ -53,6 +54,7 @@ function App() {
             {/* User routes (protected) */}
             <Route path="/user" element={<ProtectedRoute><PublicLayout /></ProtectedRoute>}>
               <Route path="profile" element={<Profile />} />
+              <Route path="posts/new" element={<CreatePost />} />
             </Route>
 
             {/* Admin routes (protected + role) */}
