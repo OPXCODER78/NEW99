@@ -60,27 +60,35 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const signUp = async (email: string, password: string, userData: any) => {
-    const { data, error } = await supabase.auth.signUp({ 
-      email, 
-      password,
-      options: {
-        data: { 
-          full_name: userData.fullName,
+    try {
+      const { data, error } = await supabase.auth.signUp({ 
+        email, 
+        password,
+        options: {
+          data: { 
+            full_name: userData.fullName,
+          }
         }
-      }
-    });
+      });
 
-    if (!error && data.user) {
+      if (error) throw error;
+      if (!data.user) throw new Error('User creation failed');
+
       // Create profile with default 'user' role
-      await supabase.from('profiles').upsert({
+      const { error: profileError } = await supabase.from('profiles').insert({
         id: data.user.id,
         full_name: userData.fullName,
         role: 'user',
         created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
       });
-    }
 
-    return { error, user: data.user };
+      if (profileError) throw profileError;
+
+      return { error: null, user: data.user };
+    } catch (error: any) {
+      return { error, user: null };
+    }
   };
 
   const signOut = async () => {

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { supabase } from '../../lib/supabase';
 import { toast } from 'sonner';
-import { Camera, Loader2, Plus } from 'lucide-react';
+import { Camera, Plus } from 'lucide-react';
 import Button from '../../components/ui/Button';
 import type { Post } from '../../types/post';
 
@@ -19,23 +19,46 @@ export default function Profile() {
   });
 
   useEffect(() => {
-    getProfile();
-    getUserPosts();
+    if (user) {
+      getProfile();
+      getUserPosts();
+    }
   }, [user]);
 
   async function getProfile() {
     try {
       if (!user) return;
 
-      const { data, error } = await supabase
+      let { data, error } = await supabase
         .from('profiles')
         .select('*')
         .eq('id', user.id)
         .single();
 
-      if (error) throw error;
+      if (error) {
+        // If no profile exists, create one
+        if (error.message.includes('returned 0 rows')) {
+          const { data: newProfile, error: createError } = await supabase
+            .from('profiles')
+            .insert({
+              id: user.id,
+              full_name: user.user_metadata?.full_name || '',
+              role: 'user',
+              created_at: new Date().toISOString(),
+              updated_at: new Date().toISOString(),
+            })
+            .select()
+            .single();
+
+          if (createError) throw createError;
+          data = newProfile;
+        } else {
+          throw error;
+        }
+      }
+
       if (data) setProfile(data);
-    } catch (error) {
+    } catch (error: any) {
       toast.error('Error loading profile');
       console.error('Error loading profile:', error);
     }

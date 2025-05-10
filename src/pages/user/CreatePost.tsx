@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -22,7 +22,23 @@ const CreatePost = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { register, handleSubmit, formState: { errors } } = useForm<PostFormData>();
 
-  useState(() => {
+  useEffect(() => {
+    async function checkProfile() {
+      if (!user) return;
+
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('id')
+        .eq('id', user.id)
+        .single();
+
+      if (error || !data) {
+        toast.error('Please complete your profile before creating a post');
+        navigate('/user/profile');
+        return;
+      }
+    }
+
     async function fetchCategories() {
       const { data } = await supabase
         .from('categories')
@@ -30,14 +46,27 @@ const CreatePost = () => {
         .order('name');
       setCategories(data || []);
     }
+
+    checkProfile();
     fetchCategories();
-  }, []);
+  }, [user, navigate]);
 
   const onSubmit = async (formData: PostFormData) => {
     if (!user) return;
     
     setIsSubmitting(true);
     try {
+      // Check if profile exists before creating post
+      const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('id')
+        .eq('id', user.id)
+        .single();
+
+      if (profileError || !profile) {
+        throw new Error('Please complete your profile before creating a post');
+      }
+
       const postData = {
         ...formData,
         content,
