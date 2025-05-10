@@ -1,5 +1,5 @@
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import { Newspaper, LayoutDashboard, FileText, Folder as FolderTag, MessageSquare, Users, Settings, LogOut, X, Broadcast } from 'lucide-react';
+import { Newspaper, LayoutDashboard, FileText, Folder as FolderTag, MessageSquare, Users, Settings, LogOut, X, Podcast as Broadcast } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
 interface AdminSidebarProps {
