@@ -79,7 +79,7 @@
   }
 
   .ios-button-tinted {
-    @apply ios-button bg-[var(--system-blue)]/10 text-[var(--system-blue)];
+    @apply ios-button bg-[var(--system-blue)] bg-opacity-10 text-[var(--system-blue)];
   }
 
   .ios-button-gray {
